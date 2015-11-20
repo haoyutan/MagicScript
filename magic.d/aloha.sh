@@ -94,16 +94,24 @@ ms_die_on_error() {
 
 
 ms_print_usage() {
+    local prog=""
+    if [ "$1" == "-p" ]; then
+        prog="$2"
+        shift 2
+    else
+        prog=${FUNCNAME[1]}
+    fi
+
     local argv=("$@")
     local usage="${argv[0]}"
-    local die=${argv[1]}
+    local die="${argv[1]}"
 
     case $die in
     "" | live | and_live | continue | and_continue)
-        printf "Usage: ${FUNCNAME[1]} %s\n" $usage
+        printf "Usage: %s %s\n" "$prog" "$usage"
         ;;
     die | die | and_die | exit | and_exit)
-        printf "Usage: ${FUNCNAME[1]} %s\n" "$usage"
+        printf "Usage: %s %s\n" "$prog" "$usage"
         local exit_code=${3:-$MS_EC_WRONG_ARGS}
         ms_die "Wrong arguments." $exit_code
         ;;
