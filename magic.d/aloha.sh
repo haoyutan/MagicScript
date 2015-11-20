@@ -100,7 +100,7 @@ ms_print_usage() {
 
     case $die in
     "" | live | and_live | continue | and_continue)
-        printf "Usage: %s\n" $usage
+        printf "Usage: ${FUNCNAME[1]} %s\n" $usage
         ;;
     die | die | and_die | exit | and_exit)
         printf "Usage: ${FUNCNAME[1]} %s\n" "$usage"
@@ -108,7 +108,7 @@ ms_print_usage() {
         ms_die "Wrong arguments." $exit_code
         ;;
     *)
-        printf "Usage: ${FUNCNAME[2]} ARGS_SPECS [live|die EXIT_CODE]\n"
+        printf "Usage: ${FUNCNAME[0]} ARGS_SPECS [live|die EXIT_CODE]\n"
         ms_die "Wrong arguments." $MS_EC_WRONG_ARGS
         ;;
     esac
