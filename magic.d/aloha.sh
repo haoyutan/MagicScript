@@ -168,7 +168,7 @@ ms_declared_function() {
     if [ $function == "" ]; then
         ms_print_usage "FUNCTION_NAME" die
     fi
-    ms_declare_list functions | grep -q "^$target_func$"
+    ms_declare_list functions | grep -q "^$function$"
 }
 #-------------------------------------------------------------------------------
 

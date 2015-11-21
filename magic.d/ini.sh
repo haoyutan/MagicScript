@@ -18,6 +18,10 @@ ms_ini_parse() {
     local cfg_file="$1"
     local cfg_name="$2"
 
+    if [ ! -f "$cfg_file" ]; then
+        ms_die "$cfg_file does not exist."
+    fi
+
     ini="$(<$cfg_file)"                              # read the file
     ini="${ini//[/\[}"                               # escape [
     ini="${ini//]/\]}"                               # escape ]
@@ -68,7 +72,7 @@ ms_ini_dump() {
 
 ms_ini_import()
 {
-    :
+    ms_import aloha
 }
 #-------------------------------------------------------------------------------
 
