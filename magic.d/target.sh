@@ -62,7 +62,7 @@ ms_target_task_run() {
      sleep 0.1
      if [ "$check_command" != "" ]; then
          >>$MS_LOGGING_LOG_FILE printf "\nChecking %s\n" "$check_command"
-         $(eval $check_command >/dev/null 2>&1)
+         $(eval $check_command >>$MS_LOGGING_LOG_FILE 2>&1)
          if [ "$?" != "0" ]; then
              printf "skip\n"
              return 0

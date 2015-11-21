@@ -270,6 +270,11 @@ ms_word_in_string() {
     done
     return 1
 }
+
+ms_echo_yn() {
+    local status=${1:-$?}
+    if [ "$status" == "0" ]; then echo "yes"; else echo "no"; fi
+}
 #-------------------------------------------------------------------------------
 
 

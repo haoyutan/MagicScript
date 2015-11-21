@@ -23,7 +23,6 @@ ms_logging_setup() {
     
         tee -a $log_file <$pipe &
     
-        # rm $pipe
         wait $pid
     
         # Return same error code as original process
@@ -31,6 +30,7 @@ ms_logging_setup() {
     fi
 
     export MS_LOGGING_LOG_FILE=$log_file
+    ms_logging_log "New logging session begins at $(ms_datetime iso)."
 }
 
 
@@ -58,6 +58,14 @@ ms_logging_exec() {
     ms_logging_log "$(printf "Output:\n%s" "$(cat $tmpfile)")"
     rm -rf $tmpfile
     return $exit_code
+}
+
+
+ms_logging_assign() {
+    local name="$1"
+    local value="$2"
+    eval "$name=\$value"
+    ms_logging_log "$name=$value"
 }
 
 

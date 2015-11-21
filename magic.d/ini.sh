@@ -13,6 +13,8 @@
 # Ini library functions
 #-------------------------------------------------------------------------------
 ms_ini_parse() {
+    OLDIFS=$IFS
+
     local cfg_file="$1"
     local cfg_name="$2"
 
@@ -24,7 +26,7 @@ ms_ini_parse() {
     ini=( ${ini[*]/\    =/=} )                       # remove tabs before =
     ini=( ${ini[*]/=\   /=} )                        # remove tabs after =
     ini=( ${ini[*]/\ =\ /=} )                        # remove spaces around =
-    ini=( ${ini[*]/#\\[/\}$'\n'$cfg_name.section.} ) # set section prefix
+    ini=( ${ini[*]/#\\[/\}$'\n'${cfg_name}_} )       # set section prefix
     ini=( ${ini[*]/%\\]/ \(} )                       # convert text2function (1)
     ini=( ${ini[*]/=/=\( } )                         # convert item to array
     ini=( ${ini[*]/%/ \)} )                          # close array parenthesis
@@ -34,27 +36,33 @@ ms_ini_parse() {
     ini[0]=""                                        # remove first element
     ini[${#ini[*]} + 1]='}'                          # add the last brace
     eval "$(echo "${ini[*]}")"                       # eval the result
+
+    IFS=$OLDIFS                                      # IMPORTANT!
 }
 
 
 ms_ini_dump() {
+    OLDIFS=$IFS
+
     local cfg_name="$1"
     IFS=' '$'\n'
     fun="$(declare -F)"
     fun="${fun//declare -f/}"
     for f in $fun; do
-        [ "${f#$cfg_name.section}" == "${f}" ] && continue
+        [ "${f#${cfg_name}_}" == "${f}" ] && continue
         item="$(declare -f ${f})"
         item="${item##*\{}"
         item="${item%\}}"
-        item="${item//=*;/}"
-        vars="${item//=*/}"
+        item=$(echo "$item" | sed 's/=.*$//')
+        vars="${item}"
         eval $f
-        echo "[${f#$cfg_name.section.}]"
+        echo "[${f#${cfg_name}_}]"
         for var in $vars; do
-            echo $var=\"${!var}\"
+            echo "$var=$(eval echo \${$var[*]})"
         done
     done
+
+    IFS=$OLDIFS                                      # IMPORTANT!
 }
 
 

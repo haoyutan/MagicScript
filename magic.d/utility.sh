@@ -54,8 +54,8 @@ ms_utility_run() {
     real_command=$(echo $command | sed "s/-/_/g")
 
     if [ "$command" == "" ]; then
-        ms_utility_print_help
-        return $MS_EC_WRONG_ARGS
+        >&2 ms_utility_print_help
+        ms_die "No command specified." $MS_EC_WRONG_ARGS
     fi
 
     ms_word_in_string "$command" "$MS_UTILITY_COMMANDS"
@@ -63,8 +63,8 @@ ms_utility_run() {
         shift
         ${MS_UTILITY_PREFIX}_${real_command} "$@"
     else
-        ms_die "Wrong utility command: $command.\n$(ms_utility_print_help)" \
-            $MS_EC_WRONG_ARGS
+        >&2 ms_utility_print_help
+        ms_die "Wrong command: $command." $MS_EC_WRONG_ARGS
     fi
 }
 
