@@ -29,8 +29,9 @@ __initialize__() {
 __sub_scripts__() {
     scripts_dir=${1:-$MS_PROG_DIR/$MS_NS.d}
     if [ -d "$scripts_dir" ]; then
-        cd $scripts_dir; find -L . -type f -name "*.sh" \
-            | sort | tr '\n' ' '; cd $OLDPWD
+        cd $scripts_dir
+        find -L . -type f -name "*.sh" | sort | tr '\n' ' '
+        cd $OLDPWD
     fi
 }
 

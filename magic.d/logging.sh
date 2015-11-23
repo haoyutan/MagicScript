@@ -18,7 +18,7 @@ ms_logging_setup() {
     
         # Keep PID of this process
         export MS_CHILD="yes"
-        sh $0 $MS_ARGV >$pipe 2>&1 &
+        /bin/bash $0 $MS_ARGV >$pipe 2>&1 &
         local pid=$!
     
         tee -a $log_file <$pipe &
