@@ -23,8 +23,8 @@ ms_ini_parse() {
     fi
 
     ini="$(<$cfg_file)"                              # read the file
-    ini="${ini//[/\[}"                               # escape [
-    ini="${ini//]/\]}"                               # escape ]
+    ini=$(echo "$ini" | sed "s@\[@\\\[@g")           # escape [
+    ini=$(echo "$ini" | sed "s@\]@\\\]@g")           # escape ]
     IFS=$'\n' && ini=( ${ini} )                      # convert to line-array
     ini=( ${ini[*]//;*/} )                           # remove comments with ;
     ini=( ${ini[*]/\    =/=} )                       # remove tabs before =
