@@ -5,8 +5,6 @@
 # Logging library functions
 #-------------------------------------------------------------------------------
 ms_logging_setup() {
-    trap 'kill -9 -$$' INT
-
     local log_file=$1
     if [ "$log_file" == "" ]; then
         ms_print_usage "LOG_FILE" die
