@@ -35,14 +35,14 @@ ms_logging_setup() {
 ms_logging_log() {
     if ms_debug; then
         >&2 printf "[%s] INFO : %s: %s\n" \
-            "$(ms_datetime time)" "${FUNCNAME[1]}" "$*"
+            "$(ms_datetime iso)" "${FUNCNAME[1]}" "$*"
     else
         if [ "$MS_LOGGING_LOG_FILE" != "" ]; then
             >>$MS_LOGGING_LOG_FILE printf "[%s] INFO : %s: %s\n" \
-                "$(ms_datetime time)" "${FUNCNAME[1]}" "$*"
+                "$(ms_datetime iso)" "${FUNCNAME[1]}" "$*"
         elif [ "$MS_LOGGING_STDERR" == "yes" ]; then
             >&2 printf "[%s] INFO : %s: %s\n" \
-                "$(ms_datetime time)" "${FUNCNAME[1]}" "$*"
+                "$(ms_datetime iso)" "${FUNCNAME[1]}" "$*"
         fi
     fi
 }

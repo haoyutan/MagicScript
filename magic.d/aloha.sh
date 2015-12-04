@@ -27,7 +27,7 @@ ms_debug_info() {
     local info=$(echo "$*" | tr "\n" " ")
     if ms_debug; then
         >&2 printf "[%s] DEBUG: %s: %s\n" \
-            "$(ms_datetime time)" "${FUNCNAME[1]}" "$*"
+            "$(ms_datetime iso)" "${FUNCNAME[1]}" "$*"
     fi
 }
 
