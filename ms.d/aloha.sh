@@ -5,7 +5,7 @@
 # Global settings and variables
 #-------------------------------------------------------------------------------
 # Disable debug mode by default
-MS_DEBUG="no"
+MS_DEBUG=${MS_DEBUG:-"no"}
 
 # Error codes
 MS_EC_FAILED=1
@@ -162,22 +162,26 @@ ms_datetime() {
 
 
 ms_import() {
-    local library=$1
-    if [ "$library" == "" ]; then
-        ms_print_usage "LIBRARY_NAME" die
-    fi
-
-    eval "local imported=\${__MS_IMPORTED_${library}__}"
-    if [ "$imported" == "yes" ]; then return; fi
-
-    ms_${library}_import
-    if [ "$?" != "0" ]; then
-        ms_die "Importing library $library failed."
-    fi
-    eval "export __MS_IMPORTED_\${library}__=yes"
-
-    if ms_debug; then
-        ms_debug_info "Imported library $library."
+    if [ $# -eq 0 ]; then
+        ms_print_usage "LIB_NAME1 [LIB_NAME2 LIB_NAME3...]" die
+    elif [ $# -gt 1 ]; then
+        for library in "$@"; do
+            ms_import $library
+        done
+    else
+        local library=$1
+        eval "local imported=\${__MS_IMPORTED_${library}__}"
+        if [ "$imported" == "yes" ]; then return; fi
+    
+        ms_${library}_import
+        if [ "$?" != "0" ]; then
+            ms_die "Importing library $library failed."
+        fi
+        eval "export __MS_IMPORTED_\${library}__=yes"
+    
+        if ms_debug; then
+            ms_debug_info "Imported library $library."
+        fi
     fi
 }
 #-------------------------------------------------------------------------------

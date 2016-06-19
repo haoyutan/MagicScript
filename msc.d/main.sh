@@ -2,8 +2,7 @@
 
 
 main() {
-    ms_import aloha
-    ms_import log
+    ms_import aloha log
     ms_log_setup
 
 
