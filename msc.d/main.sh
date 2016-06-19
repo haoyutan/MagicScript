@@ -7,9 +7,9 @@ main() {
 
 
     local src="$1"
-    local dst="${src%.sh}"
+    local dst="${src%.ms}"
     if [ "$dst" == "$src" ]; then
-        ms_die "Require a .sh input file."
+        ms_die "Require a .ms input file."
     fi
     dst=$(basename $dst)
 
@@ -27,7 +27,7 @@ main() {
         cp -r $MS_PROG_DIR/ms.d $MS_TMP_DIR/$dst.d/.ms.d
         cp $src $MS_TMP_DIR/$dst.d/main.sh
         cd $MS_TMP_DIR && bash $dst.sh __make__
-        cp $MS_TMP_DIR/$dst $MS_WORK_DIR/
+        cp $MS_TMP_DIR/$dst $MS_WORK_DIR/$dst.sh
     elif [ "$MS_COMPILED" == "yes" ]; then
         cp $MS_PROG_DIR/$MS_PROG $MS_TMP_DIR/
         cp $src $MS_TMP_DIR/main.sh
@@ -38,6 +38,6 @@ main() {
         mv $MS_NS.d $dst.d
         mv main.sh $dst.d/main.sh
         bash $dst.sh __make__
-        cp $dst $MS_WORK_DIR/
+        cp $dst $MS_WORK_DIR/$dst.sh
     fi
 }

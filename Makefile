@@ -6,7 +6,7 @@ msc:
 	bash msc.sh __make__
 
 demo: msc
-	./msc demo.sh
+	bash msc demo.ms
 
 clean:
-	rm -rf demo msc msc.sh msc.d/.ms.d
+	rm -rf demo.sh msc msc.sh msc.d/.ms.d
