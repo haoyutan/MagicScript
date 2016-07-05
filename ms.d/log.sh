@@ -10,7 +10,7 @@ _ms_random_filename() {
 }
 
 ms_log_setup() {
-    local log_file="${1:-"/dev/stderr"}"
+    local log_file="${1:-"/dev/null"}"
     MS_LOG_OUTPUT=$log_file
     ms_debug_info "Output log to $MS_LOG_OUTPUT."
 }
@@ -47,6 +47,6 @@ ms_log_assign() {
 #-------------------------------------------------------------------------------
 ms_log_import() {
     ms_import aloha
-    export MS_LOG_OUTPUT="/dev/null"
+    export MS_LOG_OUTPUT="/dev/stderr"
 }
 #-------------------------------------------------------------------------------
